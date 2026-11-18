@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Zigger Hosting</title>
+
+<style>
+
+*{box-sizing:border-box}
+
+body{margin:0;background:#080d18;color:#edf2ff;font-family:Arial,sans-serif}
+
+header{padding:22px;background:#101a2b;border-bottom:1px solid #26344b}
+
+.logo{font-size:25px;font-weight:bold;color:#55a6ff}
+
+.logo span{color:white}
+
+header p{color:#91a4c1;margin:7px 0 0}
+
+main{padding:20px;max-width:1100px;margin:auto}
+
+h2{font-size:19px;margin:25px 0 13px}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:12px}
+
+.card{background:#111c2e;border:1px solid #263750;border-radius:13px;padding:17px}
+
+.small{color:#9aacc7;font-size:13px}
+
+.value{font-size:25px;font-weight:bold;margin-top:10px}
+
+.status{color:#ffc45e}
+
+button{border:0;border-radius:9px;padding:12px 17px;font-weight:bold;margin:5px 5px 5px 0;cursor:pointer}
+
+.start{background:#168b61;color:white}
+
+.stop{background:#c94755;color:white}
+
+.restart{background:#347fe0;color:white}
+
+.secondary{background:#263750;color:white}
+
+.console{background:#050a12;border:1px solid #263750;border-radius:12px;padding:15px;height:180px;overflow:auto;color:#8ee3b0;font-family:monospace;font-size:12px}
+
+.slot{display:flex;justify-content:space-between;align-items:center;gap:10px}
+
+.slot b{font-size:15px}
+
+footer{text-align:center;padding:25px;color:#71829d;font-size:12px}
+
+.notice{background:#292313;border:1px solid #68501d;padding:13px;border-radius:10px;color:#f4d58c;font-size:13px;line-height:1.5}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+  <div class="logo">ZH <span>ZIGGER HOSTING</span></div>
+
+  <p>Your Discord bot hosting control panel</p>
+
+</header>
+
+<main>
+
+  <div class="notice">
+
+    DEMO MODE — This dashboard is not connected to a real server yet.
+
+    Bot controls and statistics are demonstrations only.
+
+  </div>
+
+  <h2>Overview</h2>
+
+  <div class="grid">
+
+    <div class="card">
+
+      <div class="small">BOT STATUS</div>
+
+      <div class="value status" id="status">OFFLINE</div>
+
+    </div>
+
+    <div class="card">
+
+      <div class="small">CPU USAGE</div>
+
+      <div class="value" id="cpu">0%</div>
+
+    </div>
+
+    <div class="card">
+
+      <div class="small">MEMORY</div>
+
+      <div class="value" id="ram">0 MB</div>
+
+    </div>
+
+    <div class="card">
+
+      <div class="small">STORAGE</div>
+
+      <div class="value">0 / 1.5 GB</div>
+
+    </div>
+
+  </div>
+
+  <h2>Server controls</h2>
+
+  <div class="card">
+
+    <div class="small">SERVER 01</div>
+
+    <div class="value">My Discord Bot</div>
+
+    <p class="small">Python bot • Demo server</p>
+
+    <button class="start" onclick="control('start')">START</button>
+
+    <button class="stop" onclick="control('stop')">STOP</button>
+
+    <button class="restart" onclick="control('restart')">RESTART</button>
+
+  </div>
+
+  <h2>My servers</h2>
+
+  <div class="card">
+
+    <div class="slot"><b>Server slot 1 — My Discord Bot</b><span>01</span></div>
+
+    <hr style="border-color:#263750">
+
+    <div class="slot"><b>Server slot 2</b><span>02</span></div>
+
+    <hr style="border-color:#263750">
+
+    <div class="slot"><b>Server slot 3</b><span>03</span></div>
+
+  </div>
+
+  <h2>Console</h2>
+
+  <div class="console" id="console">
+
+    Zigger Hosting console<br>
+
+    Dashboard loaded successfully.<br>
+
+    Waiting for demo commands...
+
+  </div>
+
+  <h2>File manager</h2>
+
+  <div class="card">
+
+    <p>📁 My Discord Bot</p>
+
+    <p class="small">📄 main.py</p>
+
+    <p class="small">📄 requirements.txt</p>
+
+    <p class="small">📁 data</p>
+
+    <button class="secondary" onclick="log('File manager is a demo. Backend connection required.')">OPEN FILE MANAGER</button>
+
+  </div>
+
+  <h2>Hosting information</h2>
+
+  <div class="grid">
+
+    <div class="card"><div class="small">SERVER SLOTS</div><div class="value">0 / 3</div></div>
+
+    <div class="card"><div class="small">AUTO RESTART</div><div class="value">DEMO</div></div>
+
+  </div>
+
+</main>
+
+<footer>Zigger Hosting © 2026 • Control panel demo</footer>
+
+<script>
+
+let online=false;
+
+function log(message){
+
+  const box=document.getElementById('console');
+
+  box.innerHTML += '<br>' + new Date().toLocaleTimeString() + ' — ' + message;
+
+  box.scrollTop=box.scrollHeight;
+
+}
+
+function control(action){
+
+  if(action==='start'){
+
+    online=true;
+
+    log('Demo start command received.');
+
+  }
+
+  if(action==='stop'){
+
+    online=false;
+
+    log('Demo stop command received.');
+
+  }
+
+  if(action==='restart'){
+
+    online=true;
+
+    log('Demo restart command received.');
+
+  }
+
+  document.getElementById('status').textContent=online?'ONLINE (DEMO)':'OFFLINE';
+
+  document.getElementById('status').style.color=online?'#55df9a':'#ffc45e';
+
+  document.getElementById('cpu').textContent=online?'Demo':'0%';
+
+  document.getElementById('ram').textContent=online?'Demo':'0 MB';
+
+}
+
+</script>
+
+</body>
+
+</html>
